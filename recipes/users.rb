@@ -37,3 +37,10 @@ node['respawn']['groups'].map{|respawn_group|
   end
 
 }
+
+file "/etc/sudoers.d/admin" do
+	content "\%admin ALL=(ALL) NOPASSWD:ALL"
+	owner "root"
+	group "root"
+	mode "0600"
+end

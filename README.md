@@ -8,6 +8,11 @@ the specifics of our event.
 
 Can be used with chef-solo, eg `chef-solo -o 'respawn::default'`
 
+Install chef solo with something like:
+
+```
+curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P chefdk -c stable -v 0.18.30
+```
 
 Attributes
 ----------

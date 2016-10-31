@@ -1,0 +1,21 @@
+respawn Cookbook
+================
+
+A small cookbook used to do basic provisioning of systems at Respawn LAN, PAX Australia, and possibly other events too.
+
+It's unlikely this cookbook will be of use to anyone except us, since it's built around
+the specifics of our event.
+
+Can be used with chef-solo, eg `chef-solo -o 'respawn::default'`
+
+
+Attributes
+----------
+
+A list of users and their groups and keys in users.rb
+
+
+License and Authors
+-------------------
+License: GPL
+

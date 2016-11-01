@@ -14,6 +14,14 @@ Install chef solo with something like:
 curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P chefdk -c stable -v 0.18.30
 ```
 
+Before runing
+-------------
+```
+mkdir -p /var/chef/nodes/
+mkdir -p /var/chef/cookbooks
+git clone https://github.com/opensourcelan/chef_respawn.git /var/chef/cookbooks/respawn
+```
+
 Attributes
 ----------
 

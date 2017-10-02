@@ -6,7 +6,7 @@ all_users.map{|respawn_user|
   user username do
   	manage_home true
   	shell '/bin/bash'
-    
+        action user.fetch('enabled', false) ? :create : :remove
   end
 
   directory "/home/#{username}/.ssh/" do

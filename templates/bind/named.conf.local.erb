@@ -1,12 +1,9 @@
 
 
 <% @zones.each do |zone| %>
-
 zone "<%= zone['name'] %>" {
 	type master;
-	file "/etc/bind/<%= zone.fetch("file", "db.#{zone['name']}") %>";
+	file "<%= @zonefile_location %><%= zone.fetch("file", "db.#{zone['name']}") %>";
 	<% if zone['rndc'] then %> allow-update { key "<%= zone['rndc'] %>"; }; <% end %>
-}
-
-
+};
 <% end %>

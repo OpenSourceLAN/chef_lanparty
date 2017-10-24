@@ -1,0 +1,6 @@
+
+<% @policies.each do |policy| %>
+<%= "#{policy.fetch("from", "all")} #{policy.fetch("to", "all")} #{policy.fetch("policy", "REJECT")}" %>
+<% end %>
+
+all all <%= @default_policy %>

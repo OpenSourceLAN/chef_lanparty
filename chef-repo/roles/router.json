@@ -4,6 +4,10 @@
     "enable_rndc": true,
 
     "subnets": {
+      "default": {
+        "net": "10.10.0.0/16",
+        "range": "10.10.16.0 10.10.32.0"
+      },
       "freeplay": {
         "net":"10.16.10.0/16",
         "range": "10.16.16.0 10.16.32.0"
@@ -16,6 +20,21 @@
         "net" : "10.18.0.0/16",
         "range": "10.18.16.0 10.18.32.0"
       }
+    },
+    "shorewall": {
+      "policies": {
+        "lan-to-fw": { "from": "lan", "to": "fw", "policy": "ACCEPT"},
+        "lan-to-fw": { "from": "fw", "to": "all", "policy": "ACCEPT"},
+        "lan-to-net": { "from": "lan", "to": "net", "policy": "ACCEPT"}
+      },
+      "default_policy": "ACCEPT",
+      "zones": {
+        "lan": { "enp0s8": {}, "enp0s8.1": { "optional": true} },
+        "net": { "enp0s3": {} }
+      },
+      "masq": {
+        "default": {"out": "enp0s3", "in": "10.0.0.0/8", "via": "10.0.0.251"}
+      }
     }
   },
   "override_attributes": { },
@@ -26,7 +45,8 @@
   	"recipe[lanparty::bind]",
   	"recipe[lanparty::dhcp]",
   	"recipe[lanparty::tftpd]",
-  	"recipe[lanparty::shorewall]"
+  	"recipe[lanparty::shorewall]",
+    "recipe[lanparty::webserver]"
 
   ]
 }

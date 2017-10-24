@@ -53,8 +53,8 @@ subnet <%= ip_range.to_range.first.to_s %> netmask   <%= ip_range.subnetmask %> 
   option broadcast-address <%= ip_range.to_range.last.to_s %>;
   option subnet-mask <%= ip_range.subnetmask %>;
 
-  <% if @rndc %>
-  zone <%= Resolv::IPv4.create(ip_range.to_s).to_name.to_s.gsub(/^(0\.)+/, "")  %> {
+  <% if @rndc # don't forget trailing dot %>
+  zone <%= Resolv::IPv4.create(ip_range.to_s).to_name.to_s.gsub(/^(0\.)+/, "")  %>. {
     primary 127.0.0.1;
     key "rndc-key";
   }

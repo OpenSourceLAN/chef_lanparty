@@ -20,6 +20,6 @@ script 'create rndc key' do
 	EOF
 	not_if { ::File.exist?(rndc_path_dhcp)}
 	notifies :restart, "service[isc-dhcp-server]", :delayed
-	notifies :reload, "service[bind]", :delayed
+	notifies :reload, "service[bind9]", :delayed
 
 end

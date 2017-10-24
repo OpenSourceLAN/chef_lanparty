@@ -1,0 +1,17 @@
+@      IN SOA  ns.pax.lan. hostmaster.pax.lan.11.10.in-addr.arpa. (
+                                20110318   ; serial
+                                28800      ; refresh (8 hours)
+                                7200       ; retry (2 hours)
+                                2419200    ; expire (4 weeks)
+                                86400      ; minimum (1 day)
+                                )
+                        NS      ns.pax.lan.
+
+<%= if @ttl then "$TTL #{@ttl}" end %>
+
+<% if @records then 
+	@records.each do |record| %>
+<%= "#{record['name']} IN #{record['type']} #{record['target']}" %>
+<% 
+	end
+end %>

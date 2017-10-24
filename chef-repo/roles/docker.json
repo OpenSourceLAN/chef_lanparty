@@ -1,0 +1,12 @@
+{
+  "name": "docker",
+  "default_attributes": { },
+  "override_attributes": { },
+  "json_class": "Chef::Role",
+  "description": "Install docker",
+  "chef_type": "role",
+  "run_list": [ 
+    "role[default]",
+  	"recipe[lanparty::docker]"
+  ]
+}

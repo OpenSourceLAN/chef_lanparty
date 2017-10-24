@@ -1,0 +1,64 @@
+<% 
+require 'ipaddr' 
+require 'resolv'
+IPAddr.class_eval do
+  def subnetmask
+    IPAddr.new(@mask_addr, Socket::AF_INET).to_s
+  end
+end
+%>
+
+authoritative;
+
+ddns-updates            on;
+ddns-update-style       interim;
+ddns-domainname         "<%= @dynamicdomainname || "dyn.lan" %>";
+ddns-rev-domainname     "in-addr.arpa.";
+update-static-leases    on;
+do-forward-updates      on;
+# Use the name in static host declarations first
+#use-host-decl-names     on;
+# Prevent Windows-hosts from setting their FQDN
+ignore                  client-updates;
+
+<% if @rndc %>
+include                 "/etc/dhcp/ddns-keys/rndc.key";
+<% end %>
+
+# Ping the IP before handing out a lease for it
+ping-check on;
+
+option domain-name "<%= @domainname %>";
+option domain-search <%= @dnsearch.map{|i| "\"#{i}\""}.join(", "); %>;
+option domain-name-servers <%= @dnsservers.join(",") %>;
+option netbios-name-servers <%= @dnsservers.join(",") %>;
+server-identifier <%= @serveridentifier %>;
+server-name "<%= @servername %>";
+default-lease-time 172800;
+max-lease-time 172800;
+
+<% if @rndc %>
+zone <%= @dynamicdomainname || "dyn.lan" %> {
+  primary 127.0.0.1;
+  key "rndc-key";
+}
+<% end %>
+
+<% @subnets.each do |subnet| 
+  ip_range = IPAddr.new(subnet['net'], Socket::AF_INET)
+  %>
+subnet <%= ip_range.to_range.first.to_s %> netmask   <%= ip_range.subnetmask %> {
+  range <%= subnet['range'] %>;
+  option routers <%= ip_range.to_range.first.succ.to_s %>;
+  option broadcast-address <%= ip_range.to_range.last.to_s %>;
+  option subnet-mask <%= ip_range.subnetmask %>;
+
+  <% if @rndc %>
+  zone <%= Resolv::IPv4.create(ip_range.to_s).to_name.to_s.gsub(/^(0\.)+/, "")  %> {
+    primary 127.0.0.1;
+    key "rndc-key";
+  }
+  <% end %>
+}
+
+<% end %>

@@ -1,0 +1,32 @@
+{
+  "name": "router",
+  "default_attributes": {
+    "enable_rndc": true,
+
+    "subnets": {
+      "freeplay": {
+        "net":"10.16.10.0/16",
+        "range": "10.16.16.0 10.16.32.0"
+      },
+      "byoc": {
+        "net": "10.17.0.0/16",
+        "range": "10.17.16.0 10.17.32.0"
+      },
+      "admin": {
+        "net" : "10.18.0.0/16",
+        "range": "10.18.16.0 10.18.32.0"
+      }
+    }
+  },
+  "override_attributes": { },
+  "json_class": "Chef::Role",
+  "description": "This is just a test role, no big deal.",
+  "chef_type": "role",
+  "run_list": [ 
+  	"recipe[lanparty::bind]",
+  	"recipe[lanparty::dhcp]",
+  	"recipe[lanparty::tftpd]",
+  	"recipe[lanparty::shorewall]"
+
+  ]
+}

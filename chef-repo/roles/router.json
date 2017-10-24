@@ -46,7 +46,8 @@
   	"recipe[lanparty::dhcp]",
   	"recipe[lanparty::tftpd]",
   	"recipe[lanparty::shorewall]",
-    "recipe[lanparty::webserver]"
+    "recipe[lanparty::webserver]",
+    "recipe[lanparty::ntpd]"
 
   ]
 }

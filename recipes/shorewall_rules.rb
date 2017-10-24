@@ -30,3 +30,16 @@ ACCEPT lan:10.10.0.0/16 net all  #server subnet
 EOF
 	notifies :restart, "service[shorewall]", :delayed
 end
+
+
+file "#{shorewall_conf_path}/rules.d/05_internet_inbound.rules" do
+	content <<-EOF
+
+ACCEPT net fw tcp 22
+ACCEPT net fw tcp 1194
+ACCEPT net fw udp 1194
+
+
+EOF
+	notifies :restart, "service[shorewall]", :delayed
+end

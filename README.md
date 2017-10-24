@@ -1,4 +1,4 @@
-respawn Cookbook
+chef_lanparty Cookbook
 ================
 
 A small cookbook used to do basic provisioning of systems at Respawn LAN, PAX Australia, and possibly other events too.
@@ -6,7 +6,7 @@ A small cookbook used to do basic provisioning of systems at Respawn LAN, PAX Au
 It's unlikely this cookbook will be of use to anyone except us, since it's built around
 the specifics of our event.
 
-Can be used with chef-solo, eg `chef-solo -o 'respawn::default'`
+Can be used with chef-solo, eg `chef-solo -o 'lanparty::default'`
 
 Install chef solo with something like:
 
@@ -19,7 +19,8 @@ Before runing
 ```
 mkdir -p /var/chef/nodes/
 mkdir -p /var/chef/cookbooks
-git clone https://github.com/opensourcelan/chef_respawn.git /var/chef/cookbooks/respawn
+ln -s `pwd`/chef-repo/roles /var/chef/roles
+git clone https://github.com/opensourcelan/chef_lanparty.git /var/chef/cookbooks/lanparty
 ```
 
 Attributes

@@ -8,5 +8,5 @@
 #
 
 # include_recipe 'respawn::apps'
-include_recipe 'respawn::users'
-include_recipe 'respawn::docker'
+include_recipe 'lanparty::users'
+include_recipe 'lanparty::docker'

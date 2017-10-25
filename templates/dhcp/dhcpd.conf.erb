@@ -62,3 +62,9 @@ subnet <%= ip_range.to_range.first.to_s %> netmask   <%= ip_range.subnetmask %> 
 }
 
 <% end %>
+
+include "/etc/dhcp/conf.d/*.conf"
+
+
+
+

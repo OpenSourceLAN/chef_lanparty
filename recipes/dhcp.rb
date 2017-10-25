@@ -21,6 +21,6 @@ template '/etc/dhcp/dhcpd.conf' do
 	notifies :restart, 'service[isc-dhcp-server]', :delayed
 end
 
-
+directory "/etc/dhcp/conf.d/"
 
 service "isc-dhcp-server"

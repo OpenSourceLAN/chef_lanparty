@@ -1,29 +1,29 @@
 
 all_users = node['respawn']['users']
 
-all_users.map{|respawn_user| 
-  username = respawn_user.first
+
+all_users.each{|username, user_attributes|
+
   user username do
   	manage_home true
   	shell '/bin/bash'
-        action user.fetch('enabled', false) ? :create : :remove
+        action user_attributes['enabled'] ? :create : :remove
   end
 
-  directory "/home/#{username}/.ssh/" do
-  	mode '0700'
-  	owner username
-  	group username
+  if user_attributes['enabled']
+    directory "/home/#{username}/.ssh/" do
+    	mode '0700'
+    	owner username
+    	group username
+    end
+
+    file "/home/#{username}/.ssh/authorized_keys" do
+    	mode '0500'
+    	owner username
+    	group username
+    	content user_attributes['key']
+    end
   end
-
-  file "/home/#{username}/.ssh/authorized_keys" do
-  	mode '0500'
-  	owner username
-  	group username
-  	content respawn_user.last['key']
-  end
-
-
-
 }
 
 node['respawn']['groups'].map{|respawn_group| 

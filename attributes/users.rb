@@ -20,7 +20,7 @@ default['respawn']['users'] = {
     "enabled" => true
   },
   "priorax" => {
-    "key" => "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDXeQ2zKQlCJ51Tq11d5uISyOCQAp7G/AhIhnRAzCJk2/SZRZQFRhDs4S+V279xKXOsoGSx3v/eBr1ug25i1GVg6EJYqkDqgUFRI+SFJIQrJzOR4SV9iLfogrnjKBShZOhBmq3milAjfaB7qYjiSURp7foMjYtbqNTQsTvzjI9Xm+vFx+6sSYhg7RQWfh20sAYilp3YfS3qGedC6jTnoMu1ESRW/88wrTeXbys3yel5Gx1EtFH9PTt2kf4RZpoej5SdkZyI0sZJEn86GOjRz0TEh8I26yvIURfwuwea6qDb30R7vDlMjTOsbP4eK3Qz+/oXY10lTLzHku+1L1tDe+5 GTLT02539",
+    "key" => "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEHpZ1IvsU4A+cX3JmxIam2tec/FdqLk60Y/AMw7NTBxQqRKXMQgSIr01CF0Vj2uu3cBqE1p0RaC/H3do9OXW+k= priorax@minipete",
     "groups" => [sudo_group, "docker"],
     "enabled" => true
   },

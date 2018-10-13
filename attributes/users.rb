@@ -20,7 +20,7 @@ default['respawn']['users'] = {
     "enabled" => true
   },
   "priorax" => {
-    "key" => "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEHpZ1IvsU4A+cX3JmxIam2tec/FdqLk60Y/AMw7NTBxQqRKXMQgSIr01CF0Vj2uu3cBqE1p0RaC/H3do9OXW+k= priorax@minipete",
+    "key" => "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIeRzcatQmkFvmvSj6sNGvao7v4GXdvvAPGdQqFsuFw0rUqLWuLE7zC9tBQSSQeBL4fKm0kT/YXmoIYuJ6VMD1Y= priorax@minipete",
     "groups" => [sudo_group, "docker"],
     "enabled" => true
   },

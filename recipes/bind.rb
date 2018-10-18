@@ -37,9 +37,10 @@ end
 
 local_zones = ["pax.lan"].map do |domain|
 	{"name" => domain + ".", "file" => "db." + domain, "records" => [
-			{"name" => "@", "type" => "A", "target" => "10.10.0.1"},
-			{"name" => "*", "type" => "A", "target" => "10.10.0.1"},
-			{"name" => "ns", "type" => "A", "target" => "10.10.0.1"}
+			{"name" => "@", "type" => "A", "target" => "10.11.0.2"},
+#			{"name" => "*", "type" => "A", "target" => "10.10.0.1"},
+			{"name" => "ns", "type" => "A", "target" => "10.11.0.2"},
+                        {"name" => "kubemaster", "type" => "CNAME", "target" => "kubemaster.dyn.pax.lan."},
 		],
 		"ttl" => "1m"}
 end

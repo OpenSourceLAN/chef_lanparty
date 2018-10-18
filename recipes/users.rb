@@ -6,6 +6,7 @@ all_users.each{|username, user_attributes|
 
   user username do
   	manage_home true
+        home "/home/#{username}"
   	shell '/bin/bash'
         action user_attributes['enabled'] ? :create : :remove
   end
@@ -13,6 +14,7 @@ all_users.each{|username, user_attributes|
   if user_attributes['enabled']
     directory "/home/#{username}/.ssh/" do
     	mode '0700'
+        recursive true
     	owner username
     	group username
     end
@@ -28,7 +30,7 @@ all_users.each{|username, user_attributes|
 
 node['respawn']['groups'].map{|respawn_group| 
 
-  group_users = all_users.select{ |u| all_users[u]['groups'].include?(respawn_group) }.map{ |u| u.first }
+  group_users = all_users.select{ |u| all_users[u]['groups'].include?(respawn_group) && all_users[u]['enabled'] == true }.map{ |u| u.first }
 
   group respawn_group do
 

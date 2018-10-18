@@ -7,8 +7,9 @@ IPAddr.class_eval do
   end
 end
 %>
-
+<% if @authoritative %>
 authoritative;
+<% end %>
 
 ddns-updates            on;
 ddns-update-style       interim;
@@ -63,7 +64,7 @@ subnet <%= ip_range.to_range.first.to_s %> netmask   <%= ip_range.subnetmask %> 
 
 <% end %>
 
-include "/etc/dhcp/conf.d/*.conf"
+#include "/etc/dhcp/conf.d/*.conf"
 
 
 

@@ -32,7 +32,7 @@ default['respawn']['users'] = {
   "shadowreaper" => {
     "key" => "",
     "groups" => ['comps', "docker"],
-    "enabled" => true
+    "enabled" => false
   },
   "zardoz" => {
     "key" => "",
@@ -42,7 +42,7 @@ default['respawn']['users'] = {
   "kelso" => {
     "key" => "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCs+kibpkwP3ow5LRY33bFhuxOs22CPYDi5TY7I+8veMBAPxy2bNKdZMgvrfPOVJ1nS4U6ggKhdkDaCJBZ0m/d093GtVW2iX/t8YU6GMfwyHst6KIoAcMQrsupUeLXHQX6Vj1QiRSMpWTfOQO0CKK/KH/nnf4Jz2/2gPADNe1tHghBV4hXd71I1ur6LFqRAktFy9OdsAMFUE4kmPkkb1LchALX8ldpWmtdfljwAg0Z2t1W8V+6cl4Fq3Mz6YeQ9SRD76mwFTLxhLxbrdU3z8z9zKKpES3zQKyzpGJzt1dJqz+yEG+OhMHF+v98q/wrlKk6NwAnk3sfgbAuRdgvx5r1t Kelso@Discordia",
     "groups" => [sudo_group, "docker"],
-    "enabled" => true
+    "enabled" => false
   },
   "shorty" => {
     "key" => "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCf/wtOjkm246Lzcuw/Rgp5iVBZyh96SinYdZgZYPUfVDSif720kKa/KgzMWbXIiP9M60JyiEBFFEOwfbkFlhc4Zgg4Ha4kExWp0ozde74ZC61/n4ubyXDi0h3M4366efmeIREAOWq79VLoOKxZS43JDDbUAgErm2nujuuzByJVFJfsAs/Kh/4LBVFG/U02LUU910aHMLe9FlTmCllFmz7Xh0crcw3KX2JQ9B9XGbHc3EA+t7zeM4fAd+MX3HpfAyrqATzrOXmm2H7XdxatTZLDtGqFm8QH/TdR5EsF6jSpqmOB2ZAnP7m3X0GkpxjV9SfxpJumObxSf/XfkX1kbGEJ shanes@Shanes-MacBook-Pro.local",

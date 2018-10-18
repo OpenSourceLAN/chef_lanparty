@@ -2,6 +2,8 @@
 rndc_path_bind = '/etc/bind/rndc.key'
 rndc_path_dhcp = '/etc/dhcp/ddns-keys/rndc.key'
 
+
+
 # Creates a more secure key file than default, and duplicates it
 # so that both bind and dhcpd's apparmor profiles allow access
 
@@ -15,7 +17,7 @@ script 'create rndc key' do
 		cp #{rndc_path_bind} #{rndc_path_dhcp}
 
 		chown bind:bind #{rndc_path_bind}
-		chown dhcpd:dhcpd #{rndc_path_dhcp}
+		#chown dhcpd:dhcpd #{rndc_path_dhcp}
 
 	EOF
 	not_if { ::File.exist?(rndc_path_dhcp)}

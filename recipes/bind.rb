@@ -45,13 +45,16 @@ local_zones = ["pax.lan"].map do |domain|
 		"ttl" => "1m"}
 end
 
+forwarded_zones = [ { "name" => "server.lan.", "forwarders" => [ "10.11.16.1" ] } ]
+
 template "/etc/bind/named.conf.local" do
 	owner binduser
 	group binduser
 	source 'bind/named.conf.local.erb'
 	variables ({
 		"zones" => cache_zones + inaddrarpa_zones + local_zones + dynamic_zones,
-		"zonefile_location" => zonefile_location
+		"zonefile_location" => zonefile_location,
+                "forwarded_zones" => forwarded_zones
 		})
 	notifies :reload, "service[bind9]", :delayed
 end

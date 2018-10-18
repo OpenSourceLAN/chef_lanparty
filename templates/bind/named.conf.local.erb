@@ -1,4 +1,15 @@
 
+<% @forwarded_zones.each do |zone| %>
+zone "<%= zone['name'] %>" {
+   type forward;
+   forward only;
+   forwarders {
+   <% zone['forwarders'].each do |forwarder| %>
+     <%= forwarder %>;
+   <% end %>
+   };
+};
+<% end %>
 
 <% @zones.each do |zone| %>
 zone "<%= zone['name'] %>" {

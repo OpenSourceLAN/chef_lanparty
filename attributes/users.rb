@@ -57,6 +57,11 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC1NCnYRAbDcldOaGX2CublpKaYcMNPpH5Ex5TCT0dY
     "key" => "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCoKM24GWZg5x4aY+Iz1lHp3NoW5S43mnibpJIwjSpkBfr/t9fgIBsTd7mWdvI5iV2p9rgPW/dbOtoyQZOqtg2V35xNkawxkH77/33fg1EtpuHDpoxU3jEYyLeDcXxnIptyt+RgoUPJnm0/yerpSk69av6HbidPY6nDAowdF04sX7dy/9JN7GsJYSTQAbUJ+o9Eeh/s6o6tk5d66RSI9QrtSlO5neKBS16z/5EveU4aJCNl+2yeV0D+hR61Al0bGf81K6E2mweXufXiq+ZcLwcZR+6jbY+teI/JRfGFxKP5mZiFg4CzfHKbiXYKygVqaiInIFVYbqWYhX0nnkGmSRKd timraphael@MacBook-Pro.local",
     "groups" => [sudo_group, "docker"],
     "enabled" => true
+  },
+  "hewi" => {
+    "key" => "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMq05lCNiPnb0dcyEZKzl918iv9uP5VUTjf61LMhcZXrzJJNpxUrsCwg6Wx1U7yz9KxCm0Hi9rwZLweB0Fsk2z/ZkpXSLTJHkaC+kx7KB3sca/r5JhMNKd6bdhH1If86PyRNzJ6siGQIfvpTEalzzHlq+jUO2WyzNbDk2WONIA7In8yEQ008TO4lGp3gJrBudWiK/OOjz0cNDpyAHzlRK/GKiVLL5S7e3o9x/+z2+ZZTFtW0rgR8AxwwNs/oqjkZfGacGRLiNf7ZwEP2dPSpDPX7RHMOKO1XnOYlaj+ZcxqzHJq4YWjosCwhuTcRoocVIZIqhTlApOVHIshKSeuLml dhartley@vixtro@VX-SB-DH",
+    "groups" => [sudo_group, "docker"],
+    "enabled" => true
   }
 
 }

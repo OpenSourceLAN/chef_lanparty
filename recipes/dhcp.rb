@@ -13,7 +13,7 @@ template '/etc/dhcp/dhcpd.conf' do
                 "authoritative" => node['dhcp']['authoritative'],
 		"dynamicdomainname" =>  "dyn.pax.lan",
 		"domainname" => "pax.lan",
-		"dnsearch" => ["pax.lan.", "dyn.pax.lan."],
+		"dnsearch" => ["pax.lan", "server.lan", "dyn.pax.lan"],
 		"dnsservers" => ["10.11.0.2"],
 		"serveridentifier" => "10.11.0.2",
 		"servername" => "heartbeat",

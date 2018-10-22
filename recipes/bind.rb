@@ -1,4 +1,3 @@
-
 require 'ipaddr'
 require 'resolv'
 
@@ -40,6 +39,12 @@ local_zones = ["pax.lan"].map do |domain|
 			{"name" => "@", "type" => "A", "target" => "10.11.0.2"},
 #			{"name" => "*", "type" => "A", "target" => "10.10.0.1"},
 			{"name" => "ns", "type" => "A", "target" => "10.11.0.2"},
+                        {"name" => "ntp", "type" => "A", "target" => "10.11.0.2"},
+                        {"name" => "heartbeat", "type" => "A", "target" => "10.11.0.2"},
+                        {"name" => "router1", "type" => "A", "target" => "10.10.0.2"},
+                        {"name" => "router2", "type" => "A", "target" => "10.10.0.3"},
+                        {"name" => "pcfp", "type" => "CNAME", "target" => "pcfp.server.lan."},
+                        {"name" => "byocapp", "type" => "CNAME", "target" => "byocapp.server.lan."},
                         {"name" => "kubemaster", "type" => "CNAME", "target" => "kubemaster.dyn.pax.lan."},
 		],
 		"ttl" => "1m"}
@@ -47,29 +52,11 @@ end
 
 forwarded_zones = [ { "name" => "server.lan.", "forwarders" => [ "10.11.16.1" ] } ]
 
-template "/etc/bind/named.conf.local" do
-	owner binduser
-	group binduser
-	source 'bind/named.conf.local.erb'
-	variables ({
-		"zones" => cache_zones + inaddrarpa_zones + local_zones + dynamic_zones,
-		"zonefile_location" => zonefile_location,
-                "forwarded_zones" => forwarded_zones
-		})
-	notifies :reload, "service[bind9]", :delayed
-end
 
 template "/etc/bind/named.conf" do
 	owner binduser
 	group binduser
 	source 'bind/named.conf.erb'
-	notifies :reload, "service[bind9]", :delayed
-end
-
-template "/etc/bind/named.conf.options" do
-	owner binduser
-	group binduser
-	source 'bind/named.conf.options.erb'
 	notifies :reload, "service[bind9]", :delayed
 end
 
@@ -116,6 +103,92 @@ template "#{zonefile_location}db.cache" do
 	notifies :reload, "service[bind9]", :delayed
 end
 
+# build cache domain poisioning
+
+cache_repo = "/opt/cache-domains"
+
+git cache_repo do
+  repository 'https://github.com/uklans/cache-domains.git'
+  revision 'master'
+  action :sync
+end
+
+cache_domains = JSON.parse(File.read("#{cache_repo}/cache_domains.json"))
+cache_zone_files = []
+cache_cname = 'cache.pax.lan'
+
+zones_we_cache = [
+#  "apple",
+#  "arenanet",
+  "blizzard",
+#  "daybreak",
+#  "frontier",
+  "hirez",
+#  "minecraft",
+#  "nexusmods",
+#  "nintendo",
+  "origin",
+#  "renegadex",
+  "riot",
+#  "rockstar",
+#  "sony",
+  "steam",
+#  "uplay",
+#  "twitch",
+  "wargaming",
+#  "wsus",
+#  "xboxlive"
+]
+
+zones_to_cache = cache_domains['cache_domains'].map{|c| c['name']} & zones_we_cache
+print "Caching these domains: "
+print zones_to_cache
+
+cache_domains['cache_domains'].each do |cdn|
+	# skip cache domains we don't support
+	if not zones_to_cache.include?(cdn['name'])
+		print "Skipping #{cdn['name']} because we don't support it"
+		next
+	end
+
+	text=File.open("#{cache_repo}/#{cdn['domain_files'][0]}").read
+	text.gsub!(/\r\n?/, "\n")
+        all_domains = text.split("\n").compact
+#	text.each_line do |line|
+#		print "#{line_num += 1} #{line}"
+#	end
+	print all_domains 
+	print "\n"
+
+	template "#{zonefile_location}db.rpz.#{cdn['name']}" do
+        	owner binduser
+	        group binduser
+	        source "bind/zonefile.erb"
+	        variables ({"name" => "@", "records" => 
+				all_domains.map{ |d|
+					{"name" => d, "type" => "CNAME", "target" => "ardent-chimp.server.lan."}
+				},
+                	"ttl" => "1m"
+        	})
+	        notifies :reload, "service[bind9]", :delayed
+	end
+	
+	cache_zone_files.push("#{zonefile_location}db.rpz.#{cdn['name']}")
+
+end
+
+template "/etc/bind/named.conf.options" do
+        owner binduser
+        group binduser
+        source 'bind/named.conf.options.erb'
+	# variables add all rpz zone files
+	variables ({
+		"rpz_zones" => cache_zone_files,
+		"cache_zones" => zones_to_cache.map{|z| { "name" => z}},
+	})
+        notifies :reload, "service[bind9]", :delayed
+end
+
 # template "#{zonefile_location}db.pax.lan" do
 # 	owner binduser
 # 	group binduser
@@ -129,5 +202,17 @@ end
 # 	notifies :reload, "service[bind9]", :delayed
 # end
 
+template "/etc/bind/named.conf.local" do
+	owner binduser
+	group binduser
+	source 'bind/named.conf.local.erb'
+	variables ({
+		"zones" => cache_zones + inaddrarpa_zones + local_zones + dynamic_zones,
+		"zonefile_location" => zonefile_location,
+                "forwarded_zones" => forwarded_zones,
+		"cache_zones" => zones_to_cache.map{|z| { "name" => z}},
+		})
+	notifies :reload, "service[bind9]", :delayed
+end
 
 service "bind9"

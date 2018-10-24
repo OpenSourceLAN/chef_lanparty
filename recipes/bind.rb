@@ -46,6 +46,7 @@ local_zones = ["pax.lan"].map do |domain|
                         {"name" => "pcfp", "type" => "CNAME", "target" => "pcfp.server.lan."},
                         {"name" => "byocapp", "type" => "CNAME", "target" => "byocapp.server.lan."},
                         {"name" => "kubemaster", "type" => "CNAME", "target" => "kubemaster.dyn.pax.lan."},
+                        {"name" => "unifi", "type" => "A", "target" => "103.79.72.156"},
 		],
 		"ttl" => "1m"}
 end
@@ -141,13 +142,13 @@ zones_we_cache = [
 ]
 
 zones_to_cache = cache_domains['cache_domains'].map{|c| c['name']} & zones_we_cache
-print "Caching these domains: "
-print zones_to_cache
+puts "Caching these domains: "
+puts zones_to_cache
 
 cache_domains['cache_domains'].each do |cdn|
 	# skip cache domains we don't support
 	if not zones_to_cache.include?(cdn['name'])
-		print "Skipping #{cdn['name']} because we don't support it"
+		puts "Skipping #{cdn['name']} because we don't support it"
 		next
 	end
 
@@ -157,8 +158,7 @@ cache_domains['cache_domains'].each do |cdn|
 #	text.each_line do |line|
 #		print "#{line_num += 1} #{line}"
 #	end
-	print all_domains 
-	print "\n"
+	puts all_domains 
 
 	template "#{zonefile_location}db.rpz.#{cdn['name']}" do
         	owner binduser
@@ -166,7 +166,7 @@ cache_domains['cache_domains'].each do |cdn|
 	        source "bind/zonefile.erb"
 	        variables ({"name" => "@", "records" => 
 				all_domains.map{ |d|
-					{"name" => d, "type" => "CNAME", "target" => "ardent-chimp.server.lan."}
+					{"name" => d, "type" => "CNAME", "target" => "cache1.server.lan."}
 				},
                 	"ttl" => "1m"
         	})
@@ -176,6 +176,19 @@ cache_domains['cache_domains'].each do |cdn|
 	cache_zone_files.push("#{zonefile_location}db.rpz.#{cdn['name']}")
 
 end
+
+custom_overrides = [
+	{"name" => "dockerreg.lanadmins.net", "type" => "CNAME", "target" => "squid.dyn.pax.lan."} # TODO: change this to a real server
+]
+custom_overrides_file = "#{zonefile_location}db.rpz.custom_overrides"
+template custom_overrides_file do
+        	owner binduser
+        group binduser
+        source "bind/zonefile.erb"
+        variables ({"name" => "@", "records" =>  custom_overrides, "ttl" => "1m"})
+        notifies :reload, "service[bind9]", :delayed
+end
+zones_to_cache.push("custom_overrides")
 
 template "/etc/bind/named.conf.options" do
         owner binduser

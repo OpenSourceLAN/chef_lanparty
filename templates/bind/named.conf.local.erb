@@ -1,3 +1,11 @@
+<% @cache_zones.each do |zone| %>
+zone "rpz.<%= zone['name'] %>" {
+    type master;
+    file "<%= @zonefile_location %><%= zone.fetch("file", "db.rpz.#{zone['name']}") %>";
+    allow-transfer { none; };
+    allow-query { localhost; };
+};
+<% end %>
 
 <% @forwarded_zones.each do |zone| %>
 zone "<%= zone['name'] %>" {

@@ -34,6 +34,11 @@ options {
         // Uncomment the following block, and insert the addresses replacing 
         // the all-0's placeholder.
 
+        response-policy {
+<% @cache_zones.each do |zone| %>
+		zone "rpz.<%= zone['name'] %>";
+<% end %>
+	};
 
         ##forwarders {
         ##  4.2.2.1;
